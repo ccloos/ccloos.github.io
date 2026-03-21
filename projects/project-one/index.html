@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thesis Overview | Colin Cloos</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <main class="section">
+    <div class="container narrow">
+      <p class="section-label">Project</p>
+      <h1>Recursive Curve Extraction Tool for High-Amplitude Events Analysis in Historical Seismograms</h1>
+      <p class="lead">
+        Master’s thesis project on the automated digitization of historical analog seismograms,
+        with a focus on extracting overlapping traces from Galitzine instrument recordings.
+      </p>
+
+      <img
+        src="../../assets/images/project-placeholder.svg"
+        alt="Abstract illustration for the thesis project"
+        style="border-radius: 1.4rem; border: 1px solid var(--border); box-shadow: var(--shadow);"
+      >
+
+      <section style="margin-top: 2rem;">
+        <h2>Project context</h2>
+        <p>
+          Historical analog seismograms recorded during the 20th century preserve valuable
+          information about earthquakes, teleseisms, and environmental phenomena such as
+          microseisms related to storms. At the Uccle seismic station, the Galitzine
+          seismograph produced long-period records that are scientifically useful today, but
+          difficult to analyze because they were created for visual interpretation rather than
+          numerical processing.
+        </p>
+        <p>
+          Turning these archives into usable time series requires digitizing scanned raster
+          images whose traces may overlap, drift, break, or degrade over time. Existing tools
+          only partly address these issues, especially in fully automatic settings.
+        </p>
+      </section>
+
+      <section>
+        <h2>Objective</h2>
+        <p>
+          The goal of the thesis was to design a robust automated curve-tracking method able
+          to reconstruct seismogram traces in challenging situations, particularly when
+          several curves overlap during high-amplitude events.
+        </p>
+      </section>
+
+      <section>
+        <h2>Main contributions</h2>
+        <p>
+          The project introduced a recursive tracking framework based on Kalman filtering and
+          Hungarian matching to follow multiple curves through noisy and ambiguous image
+          regions.
+        </p>
+        <p>
+          It also developed a synthetic data generation pipeline to create rasterized
+          seismogram images with ground-truth curves, enabling controlled benchmarking of the
+          tracking algorithms.
+        </p>
+      </section>
+
+      <section>
+        <h2>Resources</h2>
+        <p><a href="https://thesis.dial.uclouvain.be/entities/masterthesis/edf44efa-0e3e-4220-b240-090449e16d3f">Institutional thesis record</a></p>
+        <p><a href="https://thesis.dial.uclouvain.be/bitstreams/b1e89a66-a1e1-41de-a5d5-eac483e1d867/download">Thesis PDF</a></p>
+        <p><a href="https://github.com/ccloos/THESIS_Recursive_Curve_Extraction_Tool_for_High_Amplitude_Events_Analysis_in_Historical_Seismograms">GitHub repository</a></p>
+      </section>
+
+      <div class="card-row">
+        <a class="button button-primary" href="../../index.html">Back to home</a>
+        <a class="button button-secondary" href="../project-two/index.html">Methods and results</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

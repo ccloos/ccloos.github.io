@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Project placeholder artwork</title>
+  <desc id="desc">Abstract decorative placeholder image for project cards.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#f0deca" />
+      <stop offset="100%" stop-color="#d59e77" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)" />
+  <circle cx="200" cy="140" r="140" fill="#fff7ef" fill-opacity="0.7" />
+  <circle cx="950" cy="180" r="190" fill="#8f3d2f" fill-opacity="0.15" />
+  <circle cx="890" cy="540" r="220" fill="#fff7ef" fill-opacity="0.4" />
+  <path d="M0 480 C220 340, 350 620, 560 490 S920 280, 1200 430 L1200 675 L0 675 Z" fill="#8f3d2f" fill-opacity="0.18" />
+  <path d="M0 560 C180 450, 350 610, 560 550 S920 460, 1200 520" fill="none" stroke="#6e2d22" stroke-opacity="0.25" stroke-width="12" />
+</svg>

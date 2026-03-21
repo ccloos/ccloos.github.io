@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colin Cloos | Personal Website</title>
+  <meta
+    name="description"
+    content="Personal website of Colin Cloos with biography, CV, publications, projects, and contact information."
+  >
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-name" href="#top">Colin Cloos</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#bio">Biography</a>
+        <a href="#cv">CV</a>
+        <a href="#publications">Publications</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Personal website</p>
+          <h1>Colin Cloos</h1>
+          <p class="lead">
+            Mathematical Engineer working at the intersection of mathematics, artificial
+            intelligence, signal processing, and computational problem solving.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projects">View Projects</a>
+            <a class="button button-secondary" href="cv/CV_CCLOOS.pdf">Download CV</a>
+          </div>
+        </div>
+        <aside class="profile-card">
+          <h2>Quick Facts</h2>
+          <ul>
+            <li>Role: Mathematical Engineer</li>
+            <li>Fields: Mathematics, AI</li>
+            <li>GitHub: <a href="https://github.com/ccloos">github.com/ccloos</a></li>
+            <li>LinkedIn: <a href="https://linkedin.com/in/colin-cloos">linkedin.com/in/colin-cloos</a></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="bio" class="section">
+      <div class="container narrow">
+        <p class="section-label">Biography</p>
+        <h2>Profile</h2>
+        <p>
+          I am a mathematical engineer with a strong interest in applying mathematics,
+          computation, and artificial intelligence to real-world challenges. My work spans
+          signal processing, computer vision, scientific computing, and data-driven modeling.
+        </p>
+        <p>
+          My recent projects include the digitization and analysis of 20th-century historical
+          seismograms, as well as the development of intelligent tools for structural
+          monitoring and risk reduction. I enjoy translating complex technical questions into
+          practical, robust solutions.
+        </p>
+        <p>
+          I continue to broaden my expertise through advanced training programs, including
+          Neuromatch Academy in deep learning and CERN iCSC in high-performance computing,
+          while exploring new ways mathematics and AI can generate meaningful impact.
+        </p>
+      </div>
+    </section>
+
+    <section id="cv" class="section section-alt">
+      <div class="container narrow">
+        <p class="section-label">Curriculum Vitae</p>
+        <h2>CV</h2>
+        <p>My CV is available as a PDF document.</p>
+        <div class="card-row">
+          <a class="button button-primary" href="cv/CV_CCLOOS.pdf">Open CV</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications" class="section">
+      <div class="container">
+        <p class="section-label">Publications</p>
+        <h2>Selected publications</h2>
+        <div class="publication-list">
+          <article class="publication-item">
+            <p class="publication-year">2025</p>
+            <div>
+              <h3>Recursive Curve Extraction Tool for High-Amplitude Events Analysis in Historical Seismograms</h3>
+              <p>Colin Cloos</p>
+              <p>Master's thesis, Ecole polytechnique de Louvain, academic year 2024-2025</p>
+              <p>Supervisors: Jacques Laurent and Christophe De Vleeschouwer</p>
+              <p>
+                <a href="https://thesis.dial.uclouvain.be/entities/masterthesis/edf44efa-0e3e-4220-b240-090449e16d3f">Institutional record</a>
+                |
+                <a href="https://github.com/ccloos/THESIS_Recursive_Curve_Extraction_Tool_for_High_Amplitude_Events_Analysis_in_Historical_Seismograms">GitHub repository</a>
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section section-alt">
+      <div class="container">
+        <p class="section-label">Projects</p>
+        <h2>Project portfolio</h2>
+        <p class="section-intro">
+          This section is designed to host project pages that can combine text, images, videos,
+          downloadable files, and embedded widgets in a simple static structure.
+        </p>
+        <div class="project-grid">
+          <article class="project-card">
+            <img src="assets/images/project-placeholder.svg" alt="Abstract project illustration">
+            <h3>Thesis Overview</h3>
+            <p>An overview of the motivation, context, and objectives behind the digitization of historical analog seismograms.</p>
+            <a href="projects/project-one/index.html">Open project page</a>
+          </article>
+          <article class="project-card">
+            <img src="assets/images/project-placeholder.svg" alt="Abstract project illustration">
+            <h3>Methods and Results</h3>
+            <p>A focused page on the tracking framework, evaluation strategy, key findings, and future work from the thesis.</p>
+            <a href="projects/project-two/index.html">Open project page</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container narrow">
+        <p class="section-label">Contact</p>
+        <h2>Get in touch</h2>
+        <p>Email: <a href="mailto:clooscolin31@gmail.com">clooscolin31@gmail.com</a></p>
+        <p>GitHub: <a href="https://github.com/ccloos">github.com/ccloos</a></p>
+        <p>LinkedIn: <a href="https://linkedin.com/in/colin-cloos">linkedin.com/in/colin-cloos</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="current-year"></span> Colin Cloos</p>
+      <p>Built with native HTML and CSS for GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

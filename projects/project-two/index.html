@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methods and Results | Colin Cloos</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <main class="section">
+    <div class="container narrow">
+      <p class="section-label">Project</p>
+      <h1>Methods and Results</h1>
+      <p class="lead">
+        A summary of the tracking models, evaluation pipeline, key findings, and future
+        directions developed in the thesis.
+      </p>
+
+      <img
+        src="../../assets/images/project-placeholder.svg"
+        alt="Abstract illustration for methods and results"
+        style="border-radius: 1.4rem; border: 1px solid var(--border); box-shadow: var(--shadow);"
+      >
+
+      <section style="margin-top: 2rem;">
+        <h2>Tracking framework</h2>
+        <p>
+          Two main filtering approaches were developed and evaluated. The first was a linear
+          Hungarian Kalman Filter (HKF). The second was a nonlinear variant, HEKF2, designed
+          for oscillatory signal dynamics and fixed meanline assumptions.
+        </p>
+        <p>
+          The underlying idea was to combine recursive state estimation with assignment
+          between predicted and observed curve positions, so that multiple traces could be
+          tracked across complex raster images.
+        </p>
+      </section>
+
+      <section>
+        <h2>Evaluation strategy</h2>
+        <p>
+          The methods were tested on synthetic raster images generated in two different ways:
+          a sum-of-sinusoids model and a statistical Fourier-based model. Performance was
+          assessed using Root Mean Squared Error (RMSE), success rates, and qualitative visual
+          inspection.
+        </p>
+        <p>
+          This synthetic pipeline made it possible to compare the estimated trajectories with
+          known ground truth under controlled overlap and noise conditions.
+        </p>
+      </section>
+
+      <section>
+        <h2>Key findings</h2>
+        <p>
+          The HKF approach showed limitations when traces overlap strongly, mainly because its
+          state-transition model was not expressive enough to preserve the correct oscillatory
+          behavior in difficult regions.
+        </p>
+        <p>
+          The HEKF2 approach improved robustness by using a sine-aware transition model and
+          constraining each trace around a fixed meanline. This reduced drifting errors and
+          showed promising behavior in significant overlap scenarios, although some small gaps
+          between predicted trajectories and actual pixel traces remained.
+        </p>
+      </section>
+
+      <section>
+        <h2>Future directions</h2>
+        <p>
+          The report identifies several next steps: post-processing to correct drift events,
+          realignment of estimated curves to the closest smooth pixel path, and data-driven
+          alternatives that learn transition dynamics directly from real or synthetic
+          trajectories.
+        </p>
+        <p>
+          Another promising direction is to simulate the transfer function of the Galitzine
+          seismometer in order to generate more physically faithful synthetic seismograms with
+          accurate ground truth.
+        </p>
+      </section>
+
+      <div class="card-row">
+        <a class="button button-primary" href="../../index.html">Back to home</a>
+        <a class="button button-secondary" href="../project-one/index.html">Project overview</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

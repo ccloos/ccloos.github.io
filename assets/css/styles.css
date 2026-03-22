@@ -338,6 +338,21 @@ h2 {
   overflow-x: auto;
 }
 
+.pdf-frame {
+  width: 100%;
+  height: 420px;
+  border: 0;
+  background: #ffffff;
+}
+
+.pdf-frame-tall {
+  height: 760px;
+}
+
+.full-width-panel {
+  margin-top: 1.25rem;
+}
+
 .insight-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

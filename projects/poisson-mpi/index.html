@@ -26,7 +26,9 @@
         <h2>Results first</h2>
         <div class="video-grid">
           <article class="media-panel">
-            <img src="media/time.png" alt="Plot of runtime versus problem size and CPU count">
+            <object class="pdf-frame" data="media/time.pdf" type="application/pdf" aria-label="Runtime plot for the Poisson MPI solver">
+              <p><a href="media/time.pdf">Open the runtime plot PDF</a></p>
+            </object>
             <div class="media-body">
               <h3>Time to solution</h3>
               <p>
@@ -37,7 +39,9 @@
             </div>
           </article>
           <article class="media-panel">
-            <img src="media/speedup.png" alt="Plot of speedup versus problem size and CPU count">
+            <object class="pdf-frame" data="media/speedup.pdf" type="application/pdf" aria-label="Speedup plot for the Poisson MPI solver">
+              <p><a href="media/speedup.pdf">Open the speedup plot PDF</a></p>
+            </object>
             <div class="media-body">
               <h3>Speedup</h3>
               <p>
@@ -80,7 +84,9 @@
         <h2>Why the gain changes with problem size</h2>
         <div class="video-grid">
           <article class="media-panel">
-            <img src="media/efficiency.png" alt="Plot of efficiency versus problem size and CPU count">
+            <object class="pdf-frame" data="media/efficiency.pdf" type="application/pdf" aria-label="Efficiency plot for the Poisson MPI solver">
+              <p><a href="media/efficiency.pdf">Open the efficiency plot PDF</a></p>
+            </object>
             <div class="media-body">
               <h3>Efficiency</h3>
               <p>
@@ -89,17 +95,20 @@
               </p>
             </div>
           </article>
-          <article class="media-panel">
-            <img src="media/time-pie.png" alt="Plot showing communication versus computation proportions">
-            <div class="media-body">
-              <h3>Computation vs communication</h3>
-              <p>
-                As the grid is refined, computation takes a larger share of the total time.
-                This is why stronger speedups appear on larger problem sizes.
-              </p>
-            </div>
-          </article>
         </div>
+        <article class="media-panel full-width-panel">
+          <object class="pdf-frame pdf-frame-tall" data="media/time-pie.pdf" type="application/pdf" aria-label="Computation versus communication plot for the Poisson MPI solver">
+            <p><a href="media/time-pie.pdf">Open the computation versus communication plot PDF</a></p>
+          </object>
+          <div class="media-body">
+            <h3>Computation vs communication</h3>
+            <p>
+              As the grid is refined, computation takes a larger share of the total time. This
+              full-size figure makes the communication and computation proportions readable
+              across problem sizes and CPU counts.
+            </p>
+          </div>
+        </article>
       </section>
 
       <section>
@@ -112,7 +121,9 @@
         <div class="equation-block">-Delta u(x, y) = f(x, y) on [0, 1]^2</div>
         <div class="equation-block">u = 0 on the boundary, with the grid split across processes</div>
         <article class="media-panel">
-          <img src="media/solutions.png" alt="Solution plots for different spatial discretizations">
+          <object class="pdf-frame pdf-frame-tall" data="media/solutions.pdf" type="application/pdf" aria-label="Solution plots for different spatial discretizations">
+            <p><a href="media/solutions.pdf">Open the solutions PDF</a></p>
+          </object>
           <div class="media-body">
             <p>
               The solution preview above is the same visual used for the homepage miniature and

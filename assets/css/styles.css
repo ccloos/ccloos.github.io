@@ -353,6 +353,11 @@ h2 {
   margin-top: 1.25rem;
 }
 
+.wide-page {
+  width: min(calc(100% - 2rem), var(--max-width));
+  margin: 0 auto;
+}
+
 .insight-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

@@ -22,34 +22,19 @@
 
       <section>
         <h2>See the behavior first</h2>
-        <div class="video-grid">
-          <article class="media-panel">
-            <video controls preload="metadata" muted playsinline>
-              <source src="media/free-motion.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <div class="media-body">
-              <h3>Free motion</h3>
-              <p>
-                A small perturbation near the top is enough to make the uncontrolled system
-                drift away from the upright equilibrium.
-              </p>
-            </div>
-          </article>
-          <article class="media-panel">
-            <video controls preload="metadata" muted playsinline>
-              <source src="media/lqr-stabilization.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <div class="media-body">
-              <h3>LQR stabilization</h3>
-              <p>
-                Using state feedback, the LQR controller damps the motion and brings the
-                pendulum back toward the upright configuration.
-              </p>
-            </div>
-          </article>
-        </div>
+        <article class="media-panel">
+          <video controls preload="metadata" muted playsinline>
+            <source src="media/double_pendulum_lqr_demo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="media-body">
+            <h3>Free response followed by LQR stabilization</h3>
+            <p>
+              This single demo first shows the unstable open-loop behavior near the upright
+              position, then the LQR-controlled response for the same operating region.
+            </p>
+          </div>
+        </article>
       </section>
 
       <section>
@@ -69,13 +54,13 @@
       </section>
 
       <section>
-        <h2>System snapshot</h2>
+        <h2>System geometry</h2>
         <article class="media-panel">
-          <img src="media/pendulum-snapshot.png" alt="Simulation snapshot of the controlled double inverted pendulum">
+          <img src="media/system-sketch.png" alt="Sketch of the planar double inverted pendulum from the notebook">
           <div class="media-body">
             <p>
-              Snapshot of the simulated system near the upright operating point used for the
-              local stabilization study.
+              Notebook-generated sketch of the planar double inverted pendulum, showing the
+              two links, the upright reference, and the angular coordinates used in the model.
             </p>
           </div>
         </article>
@@ -88,11 +73,15 @@
             The state is described by the two link angles and their angular velocities:
             <code>[theta1, theta2, dtheta1, dtheta2]</code>.
           </p>
+          <div class="equation-block">x = [theta1, theta2, dtheta1, dtheta2]^T</div>
+          <div class="equation-block">x_dot = f(x, u)</div>
           <p>
             To design the controller, the nonlinear dynamics are linearized around the upright
             equilibrium. LQR then computes a state-feedback gain that balances state regulation
             against control effort through quadratic weighting matrices.
           </p>
+          <div class="equation-block">delta x_dot = A delta x + B delta u</div>
+          <div class="equation-block">u = -K delta x</div>
           <p>
             The result is a controller that is simple, interpretable, and effective for local
             stabilization, while remaining tied to the physics of the original nonlinear

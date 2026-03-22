@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poisson Solver MPI Speedup | Colin Cloos</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <main class="section">
+    <div class="container narrow">
+      <div class="project-page-hero">
+        <p class="section-label">Project</p>
+        <h1>Poisson Solver MPI Speedup</h1>
+        <p class="lead">
+          This project studies a parallel Jacobi solver for the 2D Poisson equation using MPI.
+          The main question is practical: when does adding processors meaningfully reduce runtime,
+          and when does communication overhead start to limit the gain?
+        </p>
+      </div>
+
+      <section>
+        <h2>Results first</h2>
+        <div class="video-grid">
+          <article class="media-panel">
+            <img src="media/time.png" alt="Plot of runtime versus problem size and CPU count">
+            <div class="media-body">
+              <h3>Time to solution</h3>
+              <p>
+                Runtime drops clearly for medium and large grids. In the report, doubling the
+                number of CPUs for <code>n &gt; 16</code> gives roughly a factor-of-two reduction
+                in time.
+              </p>
+            </div>
+          </article>
+          <article class="media-panel">
+            <img src="media/speedup.png" alt="Plot of speedup versus problem size and CPU count">
+            <div class="media-body">
+              <h3>Speedup</h3>
+              <p>
+                MPI helps most once the problem is large enough to amortize communication and
+                synchronization costs.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Quick insight</h2>
+        <div class="insight-grid">
+          <article class="insight-card">
+            <h3>When MPI helps</h3>
+            <p>
+              For medium and large problems, the parallel solver delivers visible time savings
+              because the computation dominates the communication cost.
+            </p>
+          </article>
+          <article class="insight-card">
+            <h3>Where it plateaus</h3>
+            <p>
+              For small grids, adding more processes can hurt efficiency because startup and
+              synchronization overhead become too large relative to the actual work.
+            </p>
+          </article>
+          <article class="insight-card">
+            <h3>Main takeaway</h3>
+            <p>
+              MPI is not automatically faster. The gain appears when the workload is large enough
+              to keep each process busy and make communication comparatively cheap.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Why the gain changes with problem size</h2>
+        <div class="video-grid">
+          <article class="media-panel">
+            <img src="media/efficiency.png" alt="Plot of efficiency versus problem size and CPU count">
+            <div class="media-body">
+              <h3>Efficiency</h3>
+              <p>
+                Efficiency drops when the problem is too small or the process count is too high,
+                because the parallel overhead becomes harder to justify.
+              </p>
+            </div>
+          </article>
+          <article class="media-panel">
+            <img src="media/time-pie.png" alt="Plot showing communication versus computation proportions">
+            <div class="media-body">
+              <h3>Computation vs communication</h3>
+              <p>
+                As the grid is refined, computation takes a larger share of the total time.
+                This is why stronger speedups appear on larger problem sizes.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>What problem is being solved?</h2>
+        <p>
+          The numerical task is the 2D Poisson equation on a square domain, discretized on a
+          regular grid and solved iteratively with a Jacobi method distributed across MPI
+          processes.
+        </p>
+        <div class="equation-block">-Delta u(x, y) = f(x, y) on [0, 1]^2</div>
+        <div class="equation-block">u = 0 on the boundary, with the grid split across processes</div>
+        <article class="media-panel">
+          <img src="media/solutions.png" alt="Solution plots for different spatial discretizations">
+          <div class="media-body">
+            <p>
+              The solution preview above is the same visual used for the homepage miniature and
+              gives quick context for what the solver computes before focusing on performance.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section>
+        <details class="technical-details">
+          <summary>Technical details</summary>
+          <p>
+            The implementation uses a Jacobi iteration in C++ with MPI-based domain
+            decomposition. Each process updates its local subdomain and exchanges boundary
+            information with neighboring processes.
+          </p>
+          <p>
+            The performance study compares runtime, speedup, efficiency, and the relative
+            weight of computation versus communication across several grid sizes and process
+            counts.
+          </p>
+          <p>
+            See the full report and source code below for the derivation, implementation
+            details, experimental setup, and complete discussion.
+          </p>
+        </details>
+      </section>
+
+      <section>
+        <h2>Report and code</h2>
+        <div class="resource-list">
+          <article class="resource-item">
+            <a href="Report_Project_3_Colin_Cloos.pdf">Read the full report</a>
+            <p>Full PDF report with methodology, figures, and discussion.</p>
+          </article>
+          <article class="resource-item">
+            <a href="https://github.com/ccloos/Poisson-equation-solution-acceleration">View the GitHub repository</a>
+            <p>Complete source code for the MPI solver and plotting workflow.</p>
+          </article>
+        </div>
+      </section>
+
+      <div class="card-row">
+        <a class="button button-primary" href="../../index.html">Back to home</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

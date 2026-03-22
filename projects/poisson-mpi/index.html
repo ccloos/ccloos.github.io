@@ -8,6 +8,15 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://ccloos.github.io/projects/poisson-mpi/index.html">
   <link rel="stylesheet" href="../../assets/css/styles.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <main class="section">
@@ -81,7 +90,9 @@
           when computation dominates, but they stop following ideal scaling once communication
           and synchronization become significant.
         </p>
-        <div class="equation-block">SP &lt;= 1 / (s + (1 - s) / P)</div>
+        <div class="equation-block">\[
+          SP \le \frac{1}{s + \frac{1-s}{P}}
+        \]</div>
       </section>
 
       <section>
@@ -118,8 +129,12 @@
           regular grid and solved iteratively with a Jacobi method distributed across MPI
           processes.
         </p>
-        <div class="equation-block">-Delta u(x, y) = f(x, y) on [0, 1]^2</div>
-        <div class="equation-block">u = 0 on the boundary, with the grid split across processes</div>
+        <div class="equation-block">\[
+          -\Delta u(x,y) = f(x,y), \qquad (x,y) \in [0,1]^2
+        \]</div>
+        <div class="equation-block">\[
+          u(x,y) = 0 \qquad \text{on the boundary}
+        \]</div>
         <article class="media-panel">
           <img src="media/solutions.png" alt="Solution plots for different spatial discretizations">
           <div class="media-body">

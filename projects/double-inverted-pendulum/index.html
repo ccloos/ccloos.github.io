@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Double Inverted Pendulum Control | Colin Cloos</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <main class="section">
+    <div class="container narrow">
+      <div class="project-page-hero">
+        <p class="section-label">Project</p>
+        <h1>Double Inverted Pendulum Control</h1>
+        <p class="lead">
+          The double inverted pendulum is a nonlinear and naturally unstable mechanical system
+          with two coupled links balancing above the pivot. This project shows how the
+          uncontrolled system quickly loses the upright posture, and how LQR feedback can
+          locally stabilize the motion around the upright equilibrium.
+        </p>
+      </div>
+
+      <section>
+        <h2>See the behavior first</h2>
+        <div class="video-grid">
+          <article class="media-panel">
+            <video controls preload="metadata" muted playsinline>
+              <source src="media/free-motion.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <div class="media-body">
+              <h3>Free motion</h3>
+              <p>
+                A small perturbation near the top is enough to make the uncontrolled system
+                drift away from the upright equilibrium.
+              </p>
+            </div>
+          </article>
+          <article class="media-panel">
+            <video controls preload="metadata" muted playsinline>
+              <source src="media/lqr-stabilization.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <div class="media-body">
+              <h3>LQR stabilization</h3>
+              <p>
+                Using state feedback, the LQR controller damps the motion and brings the
+                pendulum back toward the upright configuration.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Why the system is challenging</h2>
+        <p>
+          The upright configuration is unstable: if the angles are only slightly perturbed,
+          gravity causes the links to fall away rather than return on their own. Because the
+          two links are coupled, small changes in one part of the system influence the whole
+          motion, which makes the dynamics richer and harder to control than a single pendulum.
+        </p>
+        <p>
+          LQR does not solve the full nonlinear problem everywhere. Instead, it builds a local
+          feedback law around the upright equilibrium so that, when the system starts close
+          enough to that posture, the controller chooses torques that reduce deviations and
+          stabilize the motion.
+        </p>
+      </section>
+
+      <section>
+        <h2>System snapshot</h2>
+        <article class="media-panel">
+          <img src="media/pendulum-snapshot.png" alt="Simulation snapshot of the controlled double inverted pendulum">
+          <div class="media-body">
+            <p>
+              Snapshot of the simulated system near the upright operating point used for the
+              local stabilization study.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section>
+        <details class="technical-details">
+          <summary>Technical details</summary>
+          <p>
+            The state is described by the two link angles and their angular velocities:
+            <code>[theta1, theta2, dtheta1, dtheta2]</code>.
+          </p>
+          <p>
+            To design the controller, the nonlinear dynamics are linearized around the upright
+            equilibrium. LQR then computes a state-feedback gain that balances state regulation
+            against control effort through quadratic weighting matrices.
+          </p>
+          <p>
+            The result is a controller that is simple, interpretable, and effective for local
+            stabilization, while remaining tied to the physics of the original nonlinear
+            system.
+          </p>
+        </details>
+      </section>
+
+      <section>
+        <h2>Notebooks and resources</h2>
+        <div class="resource-list">
+          <article class="resource-item">
+            <a href="notebook-html/free-motion.html">View rendered free-motion notebook</a>
+            <p>Static HTML export of the free simulation notebook.</p>
+          </article>
+          <article class="resource-item">
+            <a href="notebook-html/lqr-stabilization.html">View rendered LQR notebook</a>
+            <p>Static HTML export of the stabilization notebook around the upright equilibrium.</p>
+          </article>
+          <article class="resource-item">
+            <a href="notebooks/free-motion.ipynb">Download free-motion notebook</a>
+            <p>Original Jupyter notebook file included with the site.</p>
+          </article>
+          <article class="resource-item">
+            <a href="notebooks/lqr-stabilization.ipynb">Download LQR notebook</a>
+            <p>Original Jupyter notebook file included with the site.</p>
+          </article>
+          <article class="resource-item">
+            <a href="https://github.com/ccloos/inverted-double-pendulum.git">View GitHub repository</a>
+            <p>Source repository for the inverted double pendulum project.</p>
+          </article>
+        </div>
+        <p>
+          This page intentionally includes only the free and LQR-controlled studies. The
+          swing-up notebook is excluded.
+        </p>
+      </section>
+
+      <div class="card-row">
+        <a class="button button-primary" href="../../index.html">Back to home</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

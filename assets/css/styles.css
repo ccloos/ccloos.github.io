@@ -241,6 +241,11 @@ h2 {
   background: var(--surface-strong);
 }
 
+.project-card img.project-card-image-contain {
+  object-fit: contain;
+  padding: 0.75rem;
+}
+
 .project-card h3,
 .project-card p,
 .project-card a {

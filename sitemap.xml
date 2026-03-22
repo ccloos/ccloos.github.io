@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ccloos.github.io/</loc>
+  </url>
+  <url>
+    <loc>https://ccloos.github.io/cv/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ccloos.github.io/projects/poisson-mpi/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ccloos.github.io/projects/double-inverted-pendulum/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ccloos.github.io/projects/project-one/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ccloos.github.io/projects/project-two/index.html</loc>
+  </url>
+</urlset>

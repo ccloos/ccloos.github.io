@@ -358,6 +358,24 @@ h2 {
   margin: 0 auto;
 }
 
+.media-panel img.poisson-figure {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.media-panel img.poisson-figure-solution {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.media-panel img.poisson-figure-full {
+  display: block;
+  width: 66.666%;
+  margin: 0 auto;
+}
+
 .insight-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

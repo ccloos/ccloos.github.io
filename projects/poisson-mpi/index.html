@@ -25,33 +25,43 @@
         <p class="section-label">Project</p>
         <h1>Poisson Solver MPI Speedup</h1>
         <p class="lead">
-          This project studies a parallel Jacobi solver for the 2D Poisson equation using MPI.
-          The main question is practical: when does adding processors meaningfully reduce runtime,
-          and when does communication overhead start to limit the gain?
+          This project studies the numerical solution of the 2D Poisson equation with MPI in C++
+          and focuses on time performance. The report shows when adding processors gives a clear
+          gain, and when communication and initialization overhead start to limit the benefit.
         </p>
       </div>
 
       <section>
         <h2>Results first</h2>
         <article class="media-panel">
-          <img src="media/time.png" alt="Plot of runtime versus problem size and CPU count">
+          <img class="poisson-figure" src="media/time.jpg" alt="Plot of runtime versus problem size and CPU count">
           <div class="media-body">
             <h3>Time to solution</h3>
             <p>
-              Runtime drops clearly for medium and large grids. In the report, doubling the
-              number of CPUs for <code>n &gt; 16</code> gives roughly a factor-of-two reduction
-              in time.
+              Larger problem sizes lead to longer computation times, and increasing the number
+              of CPUs improves performance for medium and large scale problems
+              <code>(n &gt; 16)</code>. For those cases, doubling <code>P</code> implies
+              approximately a reduction by a factor of 2 in the time taken.
             </p>
             <p><a href="media/time.pdf">Open the original PDF</a></p>
           </div>
         </article>
         <article class="media-panel full-width-panel">
-          <img src="media/speedup.png" alt="Plot of speedup versus problem size and CPU count">
+          <img class="poisson-figure" src="media/speedup.jpg" alt="Plot of speedup versus problem size and CPU count">
           <div class="media-body">
             <h3>Speedup</h3>
+            <div class="equation-block">\[
+              SP := \frac{T_1}{T_P} \le P
+            \]</div>
             <p>
-              MPI helps most once the problem is large enough to amortize communication and
-              synchronization costs.
+              Here, \(T_1\) is the execution time on one processor and \(T_P\) is the
+              execution time on \(P\) processors.
+            </p>
+            <p>
+              For medium and large scale problems <code>(n &gt; 16)</code>, speed-up improves
+              as the number of processors <code>P</code> increases. The observed gains remain
+              limited by the parts of the runtime that do not scale ideally, and increasing the
+              problem size <code>n</code> gives smaller speed-up in the reported experiments.
             </p>
             <p><a href="media/speedup.pdf">Open the original PDF</a></p>
           </div>
@@ -59,65 +69,41 @@
       </section>
 
       <section>
-        <h2>Quick insight</h2>
-        <div class="insight-grid">
-          <article class="insight-card">
-            <h3>When MPI helps</h3>
-            <p>
-              For medium and large problems, the parallel solver delivers visible time savings
-              because the computation dominates the communication cost.
-            </p>
-          </article>
-          <article class="insight-card">
-            <h3>Where it plateaus</h3>
-            <p>
-              For small grids, adding more processes can hurt efficiency because startup and
-              synchronization overhead become too large relative to the actual work.
-            </p>
-          </article>
-          <article class="insight-card">
-            <h3>Main takeaway</h3>
-            <p>
-              MPI is not automatically faster. The gain appears when the workload is large enough
-              to keep each process busy and make communication comparatively cheap.
-            </p>
-          </article>
-        </div>
+        <h2>Trade-off in practice</h2>
         <p>
-          This behavior is consistent with Amdahl's law: if a fraction of the computation
-          remains serial, then the total speedup cannot grow indefinitely with the number of
-          processors <code>P</code>. In this project, the measured <code>SP</code> curves improve
-          when computation dominates, but they stop following ideal scaling once communication
-          and synchronization become significant.
+          MPI helps for medium and large problems, where the computational workload is high
+          enough to benefit from the distribution across processors. For small problems,
+          efficiency becomes worse when <code>P</code> increases, because communication and
+          initialization overhead become more significant.
+        </p>
+        <p>
+          Amdahl's law states that if a fraction <code>s</code> of a computation is serial,
+          then the speed-up achievable on <code>P</code> processors is bounded by:
         </p>
         <div class="equation-block">\[
           SP \le \frac{1}{s + \frac{1-s}{P}}
         \]</div>
+        <p>
+          Here, <code>s</code> represents the serial fraction of the runtime. In this project,
+          the communication and synchronization overhead contribute to the part that prevents
+          ideal scaling, which is why increasing <code>P</code> does not lead to unlimited
+          gains.
+        </p>
       </section>
 
       <section>
-        <h2>Why the gain changes with problem size</h2>
-        <article class="media-panel">
-          <img src="media/efficiency.png" alt="Plot of efficiency versus problem size and CPU count">
-          <div class="media-body">
-            <h3>Efficiency</h3>
-            <p>
-              Efficiency drops when the problem is too small or the process count is too high,
-              because the parallel overhead becomes harder to justify.
-            </p>
-            <p><a href="media/efficiency.pdf">Open the original PDF</a></p>
-          </div>
-        </article>
+        <h2>Communication vs computation</h2>
         <article class="media-panel full-width-panel">
-          <img src="media/time-pie.png" alt="Plot showing communication versus computation proportions">
+          <img class="poisson-figure-full" src="media/time_pie.jpg" alt="Plot showing communication versus computation proportions">
           <div class="media-body">
             <h3>Computation vs communication</h3>
             <p>
-              As the grid is refined, computation takes a larger share of the total time. This
-              full-size figure makes the communication and computation proportions readable
-              across problem sizes and CPU counts.
+              As the spatial resolution <code>n</code> increases, the proportion of computation
+              time rises, while communication time remains relatively stable. When the number of
+              CPUs increases, the proportion of time spent on communication becomes more
+              pronounced because of synchronization requirements.
             </p>
-            <p><a href="media/time-pie.pdf">Open the original PDF</a></p>
+            <p><a href="media/time_pie.pdf">Open the original PDF</a></p>
           </div>
         </article>
       </section>
@@ -133,14 +119,14 @@
           -\Delta u(x,y) = f(x,y), \qquad (x,y) \in [0,1]^2
         \]</div>
         <div class="equation-block">\[
-          u(x,y) = 0 \qquad \text{on the boundary}
+          u(x,y) = 1 \qquad \text{on the boundary}
         \]</div>
         <article class="media-panel">
-          <img src="media/solutions.png" alt="Solution plots for different spatial discretizations">
+          <img class="poisson-figure-solution" src="media/solutions.jpg" alt="Solution plots for different spatial discretizations">
           <div class="media-body">
             <p>
-              The solution preview above is the same visual used for the homepage miniature and
-              gives quick context for what the solver computes before focusing on performance.
+              The solution figure gives context for the numerical problem before the focus shifts
+              to MPI performance and the computation-communication trade-off.
             </p>
             <p><a href="media/solutions.pdf">Open the original PDF</a></p>
           </div>
@@ -156,9 +142,8 @@
             information with neighboring processes.
           </p>
           <p>
-            The performance study compares runtime, speedup, efficiency, and the relative
-            weight of computation versus communication across several grid sizes and process
-            counts.
+            The report analyzes runtime, speed-up, efficiency, and the relative weight of
+            computation versus communication across several problem sizes and CPU counts.
           </p>
           <p>
             See the full report and source code below for the derivation, implementation

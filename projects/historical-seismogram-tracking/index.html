@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historical Seismogram Tracking | Colin Cloos</title>
+  <meta name="description" content="Master's thesis project page for Colin Cloos on digitizing historical analog seismograms with recursive tracking, Kalman filtering, Hungarian matching, and HEKF2.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://ccloos.github.io/projects/historical-seismogram-tracking/index.html">
+  <link rel="icon" type="image/png" href="/assets/images/C_icon.png">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <main class="section">
+    <div class="wide-page">
+      <div class="project-page-hero">
+        <p class="section-label">Project</p>
+        <h1>Historical Seismogram Tracking</h1>
+        <p class="lead">
+          This master's thesis turns scanned 20th-century analog seismograms into usable digital
+          signals. The central challenge is not simple denoising: it is recovering the correct
+          trajectory of each trace when high-amplitude events make multiple curves overlap on the
+          paper record.
+        </p>
+      </div>
+
+      <section>
+        <h2>Results first</h2>
+        <div class="insight-grid">
+          <article class="insight-card">
+            <h3>Better overlap handling</h3>
+            <p>
+              On the two-curve synthetic benchmark, the nonlinear HEKF2 reached a 75% success
+              rate, compared with 62.5% for the linear HKF baseline.
+            </p>
+          </article>
+          <article class="insight-card">
+            <h3>More stable with many traces</h3>
+            <p>
+              With five curves, HEKF2 stayed robust much deeper into the overlap range and reached
+              up to 82% success under the thesis evaluation threshold.
+            </p>
+          </article>
+          <article class="insight-card">
+            <h3>Real-data recovery</h3>
+            <p>
+              On real Uccle seismograms, HEKF2 was able to resume correct tracking after severe
+              multi-curve overlap where the linear tracker tended to drift permanently.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>The problem</h2>
+        <p>
+          The Royal Observatory of Belgium holds historical Galitzine seismograms recorded on
+          photographic paper. These archives are valuable because they contain earthquakes,
+          teleseisms, and microseisms linked to ocean-wave and storm activity. The scientific
+          value is high, but the format is hostile to automation: the data are scanned images,
+          not numerical time series.
+        </p>
+        <p>
+          Existing tools can digitize clean traces, but the hardest parts of the archive are the
+          sections that matter most, namely the large-amplitude events where curves cross, touch,
+          or merge. In those regions, a single image column may no longer tell you which dark
+          pixels belong to which signal.
+        </p>
+        <article class="media-panel">
+          <img src="media/seismogram-full.jpg" alt="Historical Galitzine seismogram with overlapping traces">
+          <div class="media-body">
+            <h3>Historical seismogram with overlapping traces</h3>
+            <p>
+              This Uccle Galitzine record shows why the problem is difficult: most of the sheet is
+              easy to follow, but high-amplitude intervals generate dense overlap bands where a
+              naive trace extractor can switch from one signal to another.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section>
+        <h2>The instrument behind the archive</h2>
+        <div class="video-grid">
+          <article class="media-panel">
+            <img src="media/galitzine-installation.jpg" alt="Historical Galitzine seismograph installation at Eskdalemuir Observatory">
+            <div class="media-body">
+              <h3>Full Galitzine installation</h3>
+              <p>
+                The Galitzine system converts ground motion into a light trace on photographic
+                paper through a seismometer, galvanometer, mirror, and rotating drum.
+              </p>
+            </div>
+          </article>
+          <article class="media-panel">
+            <img src="media/galitzine-ucc.jpg" alt="Horizontal Galitzine seismometer used at the Uccle station">
+            <div class="media-body">
+              <h3>Uccle horizontal seismometer</h3>
+              <p>
+                The thesis focuses on records produced by this long-period Galitzine instrument at
+                the Uccle seismic station.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>The solution</h2>
+        <p>
+          The thesis reframes curve extraction as a recursive multi-target tracking problem. The
+          algorithm moves from left to right across the image, predicts where each trace should be
+          in the next column, detects pixel clusters, matches predictions to measurements, and
+          updates the estimate.
+        </p>
+        <div class="equation-block">\[
+          x_{k+1} = f(x_k) + w_k, \qquad z_k = Hx_k + v_k
+        \]</div>
+        <p>
+          The first tracker is a Hungarian Kalman Filter (HKF): Kalman filtering handles
+          prediction and uncertainty, while Hungarian matching assigns the detected pixel clusters
+          to the predicted traces by minimizing the global assignment cost.
+        </p>
+        <div class="equation-block">\[
+          \sigma^* = \arg \min_{\sigma} \sum_{i=1}^{N} \left\| \hat{p}^{\,i}_{k+1|k} - m^{\,\sigma(i)}_{k+1} \right\|
+        \]</div>
+        <p>
+          The main improvement is the nonlinear HEKF family. In practice, the thesis explored
+          two variants: HEKF1 was not retained because of numerical instability, and HEKF2 became
+          the effective nonlinear solution. HEKF2 models each trace as an oscillation around a
+          fixed meanline instead of using only generic kinematics.
+        </p>
+        <div class="equation-block">\[
+          p(t) \approx a \sin(\omega t + \phi) + b
+        \]</div>
+        <p>
+          That extra structure matters. A historical seismic trace is not just “some curve moving
+          smoothly”; it is an oscillatory signal. By encoding amplitude, phase, angular frequency,
+          and meanline behavior, HEKF2 is less likely to jump onto a neighboring trace when
+          overlap occurs.
+        </p>
+      </section>
+
+      <section>
+        <h2>HEKF2 in plain language</h2>
+        <p>
+          The linear HKF says: keep going in a smooth way. HEKF2 says: keep going in a smooth
+          way, but also remain an oscillation around the correct baseline. That second constraint
+          is what reduces drift. When three traces overlap, the tracker may temporarily lose a
+          measurement, but if its internal model still looks like the right oscillation around the
+          right meanline, it has a much better chance of recovering once the overlap ends.
+        </p>
+        <p>
+          The thesis also built a synthetic raster generation pipeline with ground truth curves.
+          That made it possible to measure RMSE and success rate quantitatively rather than only
+          relying on visual inspection.
+        </p>
+      </section>
+
+      <section>
+        <h2>What the results show</h2>
+        <p>
+          The headline result is that a physics-aware nonlinear tracker is better suited to this
+          problem than a purely linear one. HEKF2 clearly improved performance on synthetic data,
+          especially in the moderate-to-strong overlap regime that resembles the difficult parts
+          of real historical records.
+        </p>
+        <p>
+          The figure below is the real-data result highlighted in the report as Figure 4.18. It
+          shows HEKF2 applied to a preprocessed Uccle seismogram. The method still faces hard
+          cases, especially when two traces have similar phase and frequency. Compared with the
+          linear baseline, HEKF2 better limits cascade drift and can recover after some severe
+          overlap regions, but the result is not fully solved yet: visible drifts remain and the
+          thesis explicitly identifies post-processing and further modeling improvements as the
+          next step.
+        </p>
+        <article class="media-panel">
+          <img src="media/hekf2-real-seismogram.png" alt="HEKF2 result on a real historical seismogram from the thesis Figure 4.18">
+          <div class="media-body">
+            <h3>Figure 4.18: HEKF2 on a real seismogram</h3>
+            <p>
+              This result is promising, but not perfect. The estimated colored trajectories stay
+              attached to their own meanlines and recover after some difficult overlap zones more
+              reliably than HKF, yet drift can still occur and small gaps can remain between the
+              estimated curve and the exact pixel path. That is why the thesis points to future
+              post-processing and improved modeling as the next step.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section>
+        <details class="technical-details">
+          <summary>Technical details</summary>
+          <p>
+            The thesis combines image preprocessing, recursive state estimation, Hungarian data
+            association, synthetic benchmark generation, and qualitative plus quantitative
+            evaluation on both synthetic and real seismograms.
+          </p>
+          <p>
+            The synthetic benchmarks use RMSE-based success thresholds and compare HKF against
+            HEKF2 across different overlap levels, different numbers of curves, and two signal
+            generation modes: sinusoidal and resampled irregular traces.
+          </p>
+          <p>
+            The main next step identified in the report is a post-processing stage that snaps the
+            estimated trajectory back onto the closest smooth pixel path without reintroducing
+            drift. The report also points to data-based modeling as a promising follow-up, where
+            transition dynamics would be learned from real or synthetic trajectories rather than
+            imposed only through a hand-designed model.
+          </p>
+        </details>
+      </section>
+
+      <section>
+        <h2>Resources</h2>
+        <div class="resource-list">
+          <article class="resource-item">
+            <a href="https://thesis.dial.uclouvain.be/entities/masterthesis/edf44efa-0e3e-4220-b240-090449e16d3f">Institutional thesis record</a>
+            <p>Official UCLouvain record for the master's thesis.</p>
+          </article>
+          <article class="resource-item">
+            <a href="https://thesis.dial.uclouvain.be/bitstreams/b1e89a66-a1e1-41de-a5d5-eac483e1d867/download">Read the thesis PDF</a>
+            <p>Full report with historical context, methods, evaluation, and conclusions.</p>
+          </article>
+          <article class="resource-item">
+            <a href="https://github.com/ccloos/THESIS_Recursive_Curve_Extraction_Tool_for_High_Amplitude_Events_Analysis_in_Historical_Seismograms">View the GitHub repository</a>
+            <p>Source code and project materials used to develop and evaluate the tracking methods.</p>
+          </article>
+        </div>
+      </section>
+
+      <div class="card-row">
+        <a class="button button-primary" href="../../index.html">Back to home</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
